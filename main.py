@@ -15,7 +15,7 @@ data.info()
 print(data.isnull().sum())
 
 
-# Data Cleaning and Feature Engineering
+# Data Cleaning
 def preprocess_data(df):
     df.drop(columns=["PassengerId", "Name", "Ticket", "Cabin"], inplace=True)
 
@@ -24,10 +24,8 @@ def preprocess_data(df):
 
     fill_missing_ages(df)
 
-    # Convert Gender
     df["Sex"] = df["Sex"].map({'male': 1, "female": 0})
 
-    # Feature Engineering
     df["FamilySize"] = df["SibSp"] + df["Parch"]
     df["IsAlone"] = np.where(df["FamilySize"] == 0, 1, 0)
     df["FareBin"] = pd.qcut(df["Fare"], 4, labels=False)
@@ -47,8 +45,6 @@ def fill_missing_ages(df):
 
 
 data = preprocess_data(data)
-
-# Create Features / Target Variables (Make Flashcards)
 X = data.drop(columns=["Survived"])
 y = data["Survived"]
 
